@@ -1,0 +1,17 @@
+version: '2.4'
+
+services:
+  flaskapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:5000:5000"  # Restrict to localhost only
+    environment:
+      - PASSWORD=${PASSWORD}  # Load from .env file
+    read_only: true           # Mount container FS as read-only
+    security_opt:
+      - no-new-privileges:true  # Prevent privilege escalation
+    mem_limit: 256m           # Restrict memory usage
+    pids_limit: 100           # Limit number of processes
+    restart: unless-stopped
